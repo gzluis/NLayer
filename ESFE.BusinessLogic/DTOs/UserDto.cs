@@ -17,3 +17,10 @@ public class UserResponse
 
     public string? RolName { get; set; }
 }
+
+public partial class RoleResponse
+{
+    public int RolId { get; set; }
+
+    public string? RolName { get; set; } 
+}
