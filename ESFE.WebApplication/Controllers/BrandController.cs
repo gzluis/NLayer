@@ -4,6 +4,7 @@ using ESFE.BusinessLogic.UseCases.Brands.Commands.DeleteBrand;
 using ESFE.BusinessLogic.UseCases.Brands.Commands.UpdateBrand;
 using ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrand;
 using ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrands;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,11 +37,11 @@ namespace ESFE.WebApplication.Controllers
         {
             try
             {
-                var result= await _mediator.Send(new CreateBrandCommand(createBrandRequest));
+                var result= await _mediator.Send(new CreateBrandCommand(createBrandRequest));               
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
                 else
-                    throw new Exception("Sucedio un error la intentar guardar la nueva marca");
+                    throw new Exception("Sucedio un error la intentar guardar la nueva marca");              
             }
             catch(Exception ex)
             {
@@ -53,7 +54,7 @@ namespace ESFE.WebApplication.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var brand = await _mediator.Send(new GetBrandQuery(id));
-            return View(brand);
+            return View(brand.Adapt(new UpdateBrandRequest()));
         }
 
         // POST: BrandController/Edit/5

@@ -1,50 +1,41 @@
 ﻿@model IEnumerable<ESFE.BusinessLogic.DTOs.ProductResponse>
 
 @{
-    ViewData["Title"] = "Buscar productos";
+    ViewData["Title"] = "Productos";
 }
 
-<h1>Index</h1>
+<h1>Producto</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-info">Ir a crear producto</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProductId)
+                Proveedor
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SupplierName)
+                Código
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductCode)
+                Nombre
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+                Imagen
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductImage)
+                Precio Unitario
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PriceUnitSale)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BrandName)
-            </th>
+                Existencias
+            </th>            
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductId)
-            </td>
+        <tr>           
             <td>
                 @Html.DisplayFor(modelItem => item.SupplierName)
             </td>
@@ -62,14 +53,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Stock)
-            </td>
+            </td>            
             <td>
-                @Html.DisplayFor(modelItem => item.BrandName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Editar", "Edit", new { id = item.ProductId }, new { @class = "btn btn-success" })
             </td>
         </tr>
 }

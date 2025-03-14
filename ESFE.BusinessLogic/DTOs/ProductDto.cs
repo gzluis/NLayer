@@ -52,7 +52,8 @@ public class UpdateProductRequest
 
 public class ProductResponse
 {
-    public long ProductId { get; set; } 
+    public long ProductId { get; set; }
+    public int? BrandId { get; set; }
 
     public string? SupplierName { get; set; }
 
@@ -67,4 +68,7 @@ public class ProductResponse
     public int? Stock { get; set; } 
 
     public string BrandName { get; set; } = null!;
+    public string? ProductDescription { get; set; }
+    public decimal? PriceUnitPurchase { get; set; }
+    public bool ProductStatus { get; set; }
 }

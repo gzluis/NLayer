@@ -1,15 +1,14 @@
 ﻿using ESFE.BusinessLogic.DTOs;
-using ESFE.BusinessLogic.UseCases.Brands.Commands.CreateBrand;
-using ESFE.BusinessLogic.UseCases.Brands.Commands.UpdateBrand;
-using ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrand;
 using ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrands;
 using ESFE.BusinessLogic.UseCases.Products.Commands.CreateProduct;
 using ESFE.BusinessLogic.UseCases.Products.Commands.UpdateProduct;
 using ESFE.BusinessLogic.UseCases.Products.Queries.GetProduct;
 using ESFE.BusinessLogic.UseCases.Products.Queries.GetProducts;
+using ESFE.Entities;
+using Mapster;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ESFE.WebApplication.Controllers
 {
@@ -29,8 +28,10 @@ namespace ESFE.WebApplication.Controllers
         }
 
         // GET: BrandController/Create
-        public ActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var brands = await _mediator.Send(new GetBrandsQuery());
+            ViewData["BrandId"] = new SelectList(brands, "BrandId", "BrandName");
             return View();
         }
 
@@ -56,8 +57,11 @@ namespace ESFE.WebApplication.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            var brand = await _mediator.Send(new GetProductQuery(id));
-            return View(brand);
+            var product = await _mediator.Send(new GetProductQuery(id));
+            var brands = await _mediator.Send(new GetBrandsQuery());
+            ViewData["BrandId"] = new SelectList(brands, "BrandId", "BrandName", product.BrandId);
+           ;
+            return View(product.Adapt(new UpdateProductRequest()));
         }
 
         // POST: BrandController/Edit/5
@@ -76,30 +80,10 @@ namespace ESFE.WebApplication.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
+                var brands = await _mediator.Send(new GetBrandsQuery());
+                ViewData["BrandId"] = new SelectList(brands, "BrandId", "BrandName", updateProductRequest.BrandId);
                 return View(updateProductRequest);
             }
-        }
-
-
-        // GET: ProductController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ProductController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        }             
     }
 }

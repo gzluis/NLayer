@@ -20,7 +20,7 @@ internal sealed class CreateProductHandler(IEfRepository<Product> _repository) :
 
             int newNumber = 1;
 
-            if (!string.IsNullOrEmpty(lastProductCode.ProductCode))
+            if (lastProductCode!=null && !string.IsNullOrEmpty(lastProductCode.ProductCode))
             {
                 var numberPart = lastProductCode.ProductCode.Substring(prefix.Length);
                 if (int.TryParse(numberPart, out int lastNumber))
@@ -29,7 +29,7 @@ internal sealed class CreateProductHandler(IEfRepository<Product> _repository) :
                 }
             }
 
-            command.Request.ProductCode = $"{command.Request}{newNumber:D4}";
+            //command.Request.ProductCode = $"{command.Request}{newNumber:D4}";
 
             var newProduct = command.Request.Adapt<Product>();
             var createdProduct = await _repository.AddAsync(newProduct, cancellationToken);
