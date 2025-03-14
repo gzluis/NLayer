@@ -50,6 +50,8 @@ namespace ESFE.WebApplication.Controllers
             }
             catch (Exception ex)
             {
+                var brands = await _mediator.Send(new GetBrandsQuery());
+                ViewData["BrandId"] = new SelectList(brands, "BrandId", "BrandName");
                 ModelState.AddModelError("", ex.Message);
                 return View(createProductRequest);
             }
@@ -59,8 +61,7 @@ namespace ESFE.WebApplication.Controllers
         {
             var product = await _mediator.Send(new GetProductQuery(id));
             var brands = await _mediator.Send(new GetBrandsQuery());
-            ViewData["BrandId"] = new SelectList(brands, "BrandId", "BrandName", product.BrandId);
-           ;
+            ViewData["BrandId"] = new SelectList(brands, "BrandId", "BrandName", product.BrandId);           
             return View(product.Adapt(new UpdateProductRequest()));
         }
 

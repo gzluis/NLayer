@@ -6,6 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using ESFE.BusinessLogic.DTOs;
 using ESFE.BusinessLogic.UseCases.Users.Queries.GetUserAuthenticated;
+using ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrands;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Mapster;
+using ESFE.BusinessLogic.UseCases.Users.Commands.CreateUser;
+using ESFE.BusinessLogic.UseCases.Users.Queries.GetUser;
+using ESFE.BusinessLogic.UseCases.Users.Commands.UpdateUser;
+using ESFE.BusinessLogic.UseCases.Users.Queries.GetUsers;
+using ESFE.BusinessLogic.UseCases.Users.Queries.GetRoles;
+using ESFE.Entities;
 
 
 namespace ESFE.WebApplication.Controllers
@@ -66,77 +75,69 @@ namespace ESFE.WebApplication.Controllers
             }
         }
 
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var users = await _mediator.Send(new GetUsersQuery());
+            return View(users);
+        }
+
+        // GET: BrandController/Create
+        public async Task<IActionResult> Create()
+        {
+            var rols = await _mediator.Send(new GetRolesQuery());
+            ViewData["RolId"] = new SelectList(rols, "RolId", "RolName");
             return View();
         }
 
-        // GET: UserController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: UserController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: UserController/Create
+        // POST: BrandController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(CreateUserRequest createUserRequest)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var result = await _mediator.Send(new CreateUserCommand(createUserRequest));
+                if (result > 0)
+                    return RedirectToAction(nameof(Index));
+                else
+                    throw new Exception("Sucedio un error la intentar guardar la nuevo Usero");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                var rols = await _mediator.Send(new GetRolesQuery());
+                ViewData["RolId"] = new SelectList(rols, "RolId", "RolName");
+                ModelState.AddModelError("", ex.Message);
+                return View(createUserRequest);
             }
         }
 
-        // GET: UserController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var user = await _mediator.Send(new GetUserQuery(id));
+            var rols = await _mediator.Send(new GetRolesQuery());
+            ViewData["RolId"] = new SelectList(rols, "RolId", "RolName", user.RolId);
+            return View(user.Adapt(new UpdateUserRequest()));
         }
 
-        // POST: UserController/Edit/5
+        // POST: BrandController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(UpdateUserRequest updateUserRequest)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var result = await _mediator.Send(new UpdateUserCommand(updateUserRequest));
+                if (result > 0)
+                    return RedirectToAction(nameof(Index));
+                else
+                    throw new Exception("Sucedio un error la intentar editar Usero");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
-            }
-        }
-
-        // GET: UserController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UserController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
+                ModelState.AddModelError("", ex.Message);
+                var rols = await _mediator.Send(new GetRolesQuery());
+                ViewData["RolId"] = new SelectList(rols, "RolId", "RolName", updateUserRequest.RolId);
+                return View(updateUserRequest);
             }
         }
     }

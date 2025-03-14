@@ -16,6 +16,7 @@ public class UserResponse
     public string? UserNickname { get; set; }
 
     public string? RolName { get; set; }
+    public int RolId { get; set; }
 }
 
 public class CreateUserRequest

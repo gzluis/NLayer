@@ -6,7 +6,7 @@ using MediatR;
 
 namespace ESFE.BusinessLogic.UseCases.Users.Queries.GetRoles;
 
-internal sealed class GetRolesHandler(IEfRepository<Product> _repository) : IRequestHandler<GetRolesQuery, List<RoleResponse>>
+internal sealed class GetRolesHandler(IEfRepository<Role> _repository) : IRequestHandler<GetRolesQuery, List<RoleResponse>>
 {
     public async Task<List<RoleResponse>> Handle(GetRolesQuery query, CancellationToken cancellationToken)
     {

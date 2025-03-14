@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ESFE.BusinessLogic.DTOs.UserResponse>
+
+@{
+    ViewData["Title"] = "Usuario";
+}
+
+<h1>Usuario</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-info">Ir a crear usuario</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>           
+            <th>
+              Nombre
+            </th>
+            <th>
+               Usuario
+            </th>           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>           
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserNickname)
+            </td>          
+            <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.UserId }, new { @class = "btn btn-success" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
