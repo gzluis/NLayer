@@ -6,10 +6,12 @@ using ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrand;
 using ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrands;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ESFE.WebApplication.Controllers
 {
+    [Authorize]
     public class BrandController : Controller
     {
         private readonly IMediator _mediator;

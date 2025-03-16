@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using ESFE.BusinessLogic.DTOs;
 using ESFE.BusinessLogic.UseCases.Users.Queries.GetUserAuthenticated;
-using ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrands;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Mapster;
 using ESFE.BusinessLogic.UseCases.Users.Commands.CreateUser;
@@ -14,11 +12,12 @@ using ESFE.BusinessLogic.UseCases.Users.Queries.GetUser;
 using ESFE.BusinessLogic.UseCases.Users.Commands.UpdateUser;
 using ESFE.BusinessLogic.UseCases.Users.Queries.GetUsers;
 using ESFE.BusinessLogic.UseCases.Users.Queries.GetRoles;
-using ESFE.Entities;
+using System.Security.Claims;
 
 
 namespace ESFE.WebApplication.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IMediator _mediator;
@@ -40,38 +39,28 @@ namespace ESFE.WebApplication.Controllers
         [HttpPost]
         // [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(GetUserAuthenticatedQuery getUserAuthenticatedQuery, string? pReturnUrl = null)
+        public async Task<IActionResult> Login(GetUserAuthenticatedQuery getUserAuthenticatedQuery)
         {
             try
             {
                 var userResponse = await _mediator.Send(getUserAuthenticatedQuery);
-                if (userResponse != null && userResponse.UserName == getUserAuthenticatedQuery.userName)
-                {
-                    //    usuarioAut.Rol = await rolBL.ObtenerPorIdAsync(new RolMantDTO { Id = usuarioAut.IdRol });
-                    //    usuarioAut.Token = usuarioAut.Token == null ? "" : usuarioAut.Token;
-                    //    var claims = new[] {
-                    //    new Claim(ClaimTypes.Name, usuarioAut.Email),
-                    //    new Claim("Id", usuarioAut.Id.ToString()),
-                    //    new Claim(ClaimTypes.Role, usuarioAut.Rol.Nombre) ,
-                    //        new Claim(ClaimTypes.GroupSid, usuarioAut.Token)
-                    //    };
-                    //    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    //    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = true }); ;
-                    //    var result = User.Identity.IsAuthenticated;
-                    if (!string.IsNullOrWhiteSpace(pReturnUrl))
-                        return Redirect(pReturnUrl);
-                    else
-                        return RedirectToAction("Index", "Home");
+                if (userResponse != null && userResponse.UserNickname == getUserAuthenticatedQuery.userName)
+                {                   
+                    var claims = new[] {
+                        new Claim(ClaimTypes.Name, userResponse.UserName),
+                        new Claim("Id", userResponse.UserId.ToString())
+                        };
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = true }); ;                  
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                     throw new Exception("Credenciales incorrectas");
             }
             catch (Exception ex)
             {
-
-                ViewBag.Url = pReturnUrl;
-                ViewBag.Error = ex.Message;
-               return View(getUserAuthenticatedQuery);
+                ModelState.AddModelError("", ex.Message);
+                return View(getUserAuthenticatedQuery);
             }
         }
 

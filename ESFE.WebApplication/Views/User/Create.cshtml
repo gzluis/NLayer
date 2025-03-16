@@ -35,8 +35,8 @@
         <div class="form-group col-3">
             <label asp-for="UserStatus" class="control-label">Estatus</label>          
             <select asp-for="UserStatus" class="form-control">
-                <option value="ACTIVO">ACTIVO</option>
-                <option value="INACTIVO">INACTIVO</option>
+                <option value="True">ACTIVO</option>
+                <option value="False">INACTIVO</option>
             </select>
             <span asp-validation-for="UserStatus" class="text-danger"></span>
         </div>

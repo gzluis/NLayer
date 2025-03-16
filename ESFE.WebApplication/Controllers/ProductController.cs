@@ -7,11 +7,13 @@ using ESFE.BusinessLogic.UseCases.Products.Queries.GetProducts;
 using ESFE.Entities;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ESFE.WebApplication.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IMediator _mediator;
