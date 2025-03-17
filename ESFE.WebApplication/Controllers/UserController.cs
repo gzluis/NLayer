@@ -26,13 +26,15 @@ namespace ESFE.WebApplication.Controllers
         {
             _mediator = mediator;
         }
-
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string? pReturnUrl = null)
+        public async Task<IActionResult> CerrarSesion(string? pReturnUrl = null)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            ViewBag.Url = pReturnUrl;
-            ViewBag.Error = "";
+            return RedirectToAction("Index","Home");
+        }
+        [AllowAnonymous]
+        public IActionResult Login()
+        {                    
             return View();
         }
 

@@ -1,0 +1,70 @@
+﻿@model ESFE.BusinessLogic.DTOs.CreateQuotationRequest
+
+@{
+    ViewData["Title"] = "Crear Cotización";
+}
+
+<h1>Crear</h1>
+
+<h4>Cotización</h4>
+<hr />
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="form-group col-3">
+            <label asp-for="ClientName" class="control-label"></label>
+            <input asp-for="ClientName" class="form-control" />
+            <span asp-validation-for="ClientName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-3">
+            <label asp-for="ClientPhone" class="control-label"></label>
+            <input asp-for="ClientPhone" class="form-control" />
+            <span asp-validation-for="ClientPhone" class="text-danger"></span>
+        </div>
+        <div class="form-group col-4">
+            <label asp-for="SellerName" class="control-label"></label>
+            <input asp-for="SellerName" class="form-control" />
+            <span asp-validation-for="SellerName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-3">
+            <label asp-for="PaymentMethodName" class="control-label"></label>
+            <input asp-for="PaymentMethodName" class="form-control" />
+            <span asp-validation-for="PaymentMethodName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-3">
+            <label asp-for="QuotationNumber" class="control-label"></label>
+            <input asp-for="QuotationNumber" class="form-control" />
+            <span asp-validation-for="QuotationNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group col-3">
+            <label asp-for="ValidityDays" class="control-label"></label>
+            <input asp-for="ValidityDays" class="form-control" />
+            <span asp-validation-for="ValidityDays" class="text-danger"></span>
+        </div>
+        <div class="form-group col-3">
+            <label asp-for="QuotationRegistration" class="control-label"></label>
+            <input asp-for="QuotationRegistration" class="form-control" />
+            <span asp-validation-for="QuotationRegistration" class="text-danger"></span>
+        </div>
+        <div class="form-group col-3">
+            <label asp-for="Total" class="control-label"></label>
+            <input asp-for="Total" class="form-control" />
+            <span asp-validation-for="Total" class="text-danger"></span>
+        </div>
+        <div class="form-group form-check col-3">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="QuotationStatus" /> @Html.DisplayNameFor(model => model.QuotationStatus)
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group mt-3">
+            <input type="submit" value="Crear" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-info">Cancelar</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
