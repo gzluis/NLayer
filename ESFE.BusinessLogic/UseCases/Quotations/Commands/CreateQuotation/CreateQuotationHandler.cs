@@ -2,29 +2,35 @@
 using ESFE.Entities;
 using Mapster;
 using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ESFE.BusinessLogic.UseCases.Quotations.Commands.CreateQuotation;
-
-internal sealed class CreateQuotationHandler(IEfRepository<Quotation> _repository) : IRequestHandler<CreateQuotationCommand, long>
+namespace ESFE.BusinessLogic.UseCases.Quotations.Commands.CreateQuotation
 {
-    public async Task<long> Handle(CreateQuotationCommand command, CancellationToken cancellationToken)
+    internal sealed class CreateQuotationHandler(IEfRepository<Quotation> _repository) : IRequestHandler<CreateQuotationCommand, long>
     {
-        try
+        public async Task<long> Handle(CreateQuotationCommand command, CancellationToken cancellationToken)
         {
-            await _repository.BeginTransactionAsync();
+			try
+			{
+				await _repository.BeginTransactionAsync();
 
-            var newQuotation = command.Request.Adapt<Quotation>();
-            var createdQuotation = await _repository.AddAsync(newQuotation, cancellationToken);
-            
-            await _repository.CommitAsync();
+				var newQuotation = command.Request.Adapt<Quotation>();
 
-            return createdQuotation.QuotationId;
-        }
-        catch (Exception ex)
-        {
-            await _repository.RollbackAsync();
-            return 0;
-            throw;
+				var createdQuotation = await _repository.AddAsync(newQuotation, cancellationToken);
+
+				await _repository.CommitAsync();
+
+				return createdQuotation.QuotationId;
+            }
+			catch (Exception)
+			{
+				await _repository.RollbackAsync();
+				throw;
+			}
         }
     }
 }

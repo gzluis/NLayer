@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ESFE.BusinessLogic.DTOs.QuotationResponse>
+
+@{
+    ViewData["Title"] = "Cotización";
+}
+
+<h1>Cotización</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-info">Ir a crear cotización</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre del Cliente</th>
+            <th>Teléfono del Cliente</th>
+            <th>Nombre del Vendedor</th>
+            <th>Método de Pago</th>
+            <th>Número de Cotización</th>
+            <th>Días de Validez</th>
+            <th>Fecha de Registro de Cotización</th>
+            <th>Estado de la Cotización</th>
+            <th>Total</th>           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>           
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SellerName)
+            </td>           
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentMethodName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuotationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValidityDays)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuotationRegistration)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuotationStatus)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+           
+            <td>               
+                    @Html.ActionLink("Detalle", "Details", new { id = item.QuotationId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

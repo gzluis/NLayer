@@ -1,6 +1,11 @@
 ﻿using Ardalis.Specification.EntityFrameworkCore;
 using ESFE.DataAccess.Interfaces;
 using Microsoft.EntityFrameworkCore.Storage;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ESFE.DataAccess.Repositories
 {
@@ -9,8 +14,7 @@ namespace ESFE.DataAccess.Repositories
         private readonly QuotationContext _context;
         private IDbContextTransaction? _transaction;
 
-        public EfRepository(QuotationContext context) : base(context)
-        {
+        public EfRepository(QuotationContext context) : base(context)        {
             _context = context;
         }
 
@@ -23,6 +27,7 @@ namespace ESFE.DataAccess.Repositories
 
             _transaction = await _context.Database.BeginTransactionAsync();
         }
+
         public async Task CommitAsync()
         {
             if (_transaction == null)
@@ -34,6 +39,7 @@ namespace ESFE.DataAccess.Repositories
             await _transaction.DisposeAsync();
             _transaction = null;
         }
+
         public async Task RollbackAsync()
         {
             if (_transaction == null)
@@ -43,17 +49,6 @@ namespace ESFE.DataAccess.Repositories
 
             await _transaction.RollbackAsync();
             await _transaction.DisposeAsync();
-            _transaction = null;
-        }
-
-        public void Dispose()
-        {
-            if (_transaction == null)
-            {
-                return;
-            }
-
-            _transaction.Dispose();
             _transaction = null;
         }
     }

@@ -1,17 +1,13 @@
-﻿using ESFE.BusinessLogic.UseCases.Brands.Commands.UpdateBrand;
-using ESFE.DataAccess.Interfaces;
+﻿using ESFE.DataAccess.Interfaces;
 using ESFE.Entities;
 using Mapster;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ESFE.BusinessLogic.UseCases.Users.Commands.UpdateUser;
 
-internal sealed class UpdateUserHandler(IEfRepository<User> _repository) : IRequestHandler<UpdateUserCommand, int>
+internal sealed class UpdateUserHandler(IEfRepository<User> _repository)
+    : IRequestHandler<UpdateUserCommand, int>
 {
     public async Task<int> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
     {
@@ -21,6 +17,7 @@ internal sealed class UpdateUserHandler(IEfRepository<User> _repository) : IRequ
             if (existingUser is null) return 0;
 
             existingUser = command.Request.Adapt(existingUser);
+            
             await _repository.UpdateAsync(existingUser, cancellationToken);
 
             return existingUser.UserId;

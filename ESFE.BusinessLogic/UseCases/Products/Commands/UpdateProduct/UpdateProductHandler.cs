@@ -1,34 +1,29 @@
-﻿using ESFE.BusinessLogic.UseCases.Brands.Commands.UpdateBrand;
-using ESFE.DataAccess.Interfaces;
+﻿using ESFE.DataAccess.Interfaces;
 using ESFE.Entities;
 using Mapster;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ESFE.BusinessLogic.UseCases.Products.Commands.UpdateProduct;
-
-internal sealed class UpdateProductHandler(IEfRepository<Product> _repository) : IRequestHandler<UpdateProductCommand, long>
+namespace ESFE.BusinessLogic.UseCases.Products.Commands.UpdateProduct
 {
-    public async Task<long> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
+    internal sealed class UpdateProductHandler(IEfRepository<Product> _repository) : IRequestHandler<UpdateProductCommand, long>
     {
-        try
+        public async Task<long> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
         {
-            var existingBrand = await _repository.GetByIdAsync(command.Request.ProductId, cancellationToken);
-            if (existingBrand is null) return 0;
+            try
+            {
+                var existingProduct = await _repository.GetByIdAsync(command.Request.ProductId, cancellationToken);
+                if (existingProduct is null) return 0;
 
-            existingBrand = command.Request.Adapt(existingBrand);
-            await _repository.UpdateAsync(existingBrand, cancellationToken);
+                existingProduct = command.Request.Adapt(existingProduct);
+                await _repository.UpdateAsync(existingProduct, cancellationToken);
 
-            return existingBrand.ProductId;
-        }
-        catch (Exception)
-        {
-            return 0;
-            throw;
+                return existingProduct.ProductId;
+            }
+            catch (Exception)
+            {
+                return 0;
+                throw;
+            }
         }
     }
 }

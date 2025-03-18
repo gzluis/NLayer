@@ -1,10 +1,15 @@
 ﻿using ESFE.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ESFE.BusinessLogic.DTOs;
 
+
 public class CreateQuotationRequest
 {
-    public long QuotationId { get; set; }
 
     public string? ClientName { get; set; }
 
@@ -26,13 +31,12 @@ public class CreateQuotationRequest
 
     public bool QuotationStatus { get; set; }
 
-    public virtual List<CreateQuotationDetailRequest> QuotationDetails { get; set; } = new List<CreateQuotationDetailRequest>();
+    public virtual ICollection<CreateQuotationDetailRequest> QuotationDetails { get; set; } = new List<CreateQuotationDetailRequest>();
 }
 
-public class CreateQuotationDetailRequest
-{
-    public long QuotationDetailId { get; set; }
 
+public class CreateQuotationDetailRequest
+{ 
     public long? QuotationId { get; set; }
 
     public long? ProductId { get; set; }
@@ -41,9 +45,8 @@ public class CreateQuotationDetailRequest
 
     public decimal? Discount { get; set; }
 
-    public decimal? Subtotal { get; set; }
+    public decimal? Subtotal { get; set; } 
 }
-
 
 
 public class QuotationResponse
@@ -75,7 +78,8 @@ public class QuotationResponse
     public virtual UserResponse? User { get; set; }
 }
 
-public partial class QuotationDetailResponse
+
+public class QuotationDetailResponse
 {
     public long QuotationDetailId { get; set; }
 

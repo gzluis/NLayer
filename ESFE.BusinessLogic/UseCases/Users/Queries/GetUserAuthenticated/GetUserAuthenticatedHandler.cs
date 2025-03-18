@@ -7,17 +7,22 @@ using MediatR;
 
 namespace ESFE.BusinessLogic.UseCases.Users.Queries.GetUserAuthenticated;
 
-internal sealed class GetUserAuthenticatedHandler(IEfRepository<User> _repository) : IRequestHandler<GetUserAuthenticatedQuery, UserResponse>
+internal sealed class GetUserAuthenticatedHandler(IEfRepository<User> _repository)
+    : IRequestHandler<GetUserAuthenticatedQuery, UserResponse>
 {
     public async Task<UserResponse> Handle(GetUserAuthenticatedQuery query, CancellationToken cancellationToken)
     {
-        var User = await _repository.FirstOrDefaultAsync(new GetUserAuthenticatedSpec(query.userName, query.password), cancellationToken);
+        var user = await _repository
+            .FirstOrDefaultAsync(
+                new GetUserAuthenticatedSpec(query.userName, query.password),
+                cancellationToken
+            );
 
-        if (User is null)
+        if (user is null)
         {
             return new UserResponse();
         }
 
-        return User.Adapt<UserResponse>();
+        return user.Adapt<UserResponse>();
     }
 }

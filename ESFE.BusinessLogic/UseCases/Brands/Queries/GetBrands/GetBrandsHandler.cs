@@ -3,10 +3,16 @@ using ESFE.DataAccess.Interfaces;
 using ESFE.Entities;
 using Mapster;
 using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrands;
 
-internal sealed class GetBrandsHandler(IEfRepository<Brand> _repository) : IRequestHandler<GetBrandsQuery, List<BrandResponse>>
+internal sealed class GetBrandsHandler(IEfRepository<Brand> _repository)
+    : IRequestHandler<GetBrandsQuery, List<BrandResponse>>
 {
     public async Task<List<BrandResponse>> Handle(GetBrandsQuery query, CancellationToken cancellationToken)
     {

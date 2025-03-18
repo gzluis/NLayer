@@ -7,11 +7,12 @@ namespace ESFE.BusinessLogic.UseCases.Users.Specifications
     {
         public GetUserAuthenticatedSpec(string userName, string password)
         {
-            Query.Where(u =>
-                        u.UserNickname == userName &&
-                        u.UserPassword == password &&
-                        u.UserStatus == true
+            Query.Where(u => 
+                u.UserNickname == userName 
+                && u.UserPassword == password
+                && u.UserStatus == true
             );
+
             Query.Include(u => u.Rol);
         }
     }

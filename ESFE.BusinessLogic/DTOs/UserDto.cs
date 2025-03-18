@@ -1,26 +1,26 @@
 ﻿using ESFE.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ESFE.BusinessLogic.DTOs;
 
+
 public class UserResponse
 {
-    public int UserId { get; set; } 
+    public int UserId { get; set; }
+
+    public int RolId { get; set; }
 
     public string? UserName { get; set; }
 
     public string? UserNickname { get; set; }
 
+    public bool? UserStatus { get; set; }
+
     public string? RolName { get; set; }
 }
 
-public class CreateUserRequest
-{ 
 
+public class CreateUserRequest
+{
     public int RolId { get; set; }
 
     public string? UserName { get; set; }
@@ -31,7 +31,7 @@ public class CreateUserRequest
 
     public bool? UserStatus { get; set; }
 
-    public DateOnly? RegistrationDate { get; set; } 
+    public DateOnly? RegistrationDate { get; set; }
 }
 
 
@@ -45,13 +45,34 @@ public class UpdateUserRequest
 
     public string? UserNickname { get; set; }
 
-    public string? UserPassword { get; set; } 
+    public string? UserPassword { get; set; }
+
+    public bool? UserStatus { get; set; }
+
+    public DateOnly? RegistrationDate { get; set; }
 }
 
-
-public partial class RoleResponse
+public class RoleResponse
 {
     public int RolId { get; set; }
 
-    public string? RolName { get; set; } 
+    public string? RolName { get; set; }
+}
+
+
+public class UserByIdResponse
+{
+    public int UserId { get; set; }
+
+    public int RolId { get; set; }
+
+    public string? UserName { get; set; }
+
+    public string? UserNickname { get; set; }
+
+    public string? UserPassword { get; set; }
+
+    public bool? UserStatus { get; set; }
+
+    public DateOnly? RegistrationDate { get; set; } 
 }

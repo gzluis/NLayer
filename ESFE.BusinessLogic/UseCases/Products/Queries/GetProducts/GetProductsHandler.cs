@@ -1,28 +1,23 @@
 ﻿using ESFE.BusinessLogic.DTOs;
-using ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrands;
+using ESFE.BusinessLogic.UseCases.Products.Specifications;
 using ESFE.DataAccess.Interfaces;
 using ESFE.Entities;
 using Mapster;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ESFE.BusinessLogic.UseCases.Products.Queries.GetProducts;
-
-internal sealed class GetProductsHandler(IEfRepository<Product> _repository) : IRequestHandler<GetProductsQuery, List<ProductResponse>>
+namespace ESFE.BusinessLogic.UseCases.Products.Queries.GetProducts
 {
-    public async Task<List<ProductResponse>> Handle(GetProductsQuery query, CancellationToken cancellationToken)
+    internal sealed class GetProductsHandler(IEfRepository<Product> _repository) : IRequestHandler<GetProductsQuery, List<ProductResponse>>
     {
-        var products = await _repository.ListAsync(cancellationToken);
-
-        if (products == null || !products.Any())
+        public async Task<List<ProductResponse>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            return new List<ProductResponse>();
-        }
+            var products = await _repository.ListAsync(new GetProductWithBrandSpec(), cancellationToken);
 
-        return products.Adapt<List<ProductResponse>>();
+            if (products == null && !products.Any()) {
+                return new List<ProductResponse>();
+            }
+
+            return products.Adapt<List<ProductResponse>>();
+        }
     }
 }

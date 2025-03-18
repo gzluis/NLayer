@@ -1,6 +1,4 @@
-﻿using ESFE.BusinessLogic.UseCases.Brands.Commands.CreateBrand;
-using ESFE.BusinessLogic.UseCases.Users.Commands.CreateUser;
-using ESFE.DataAccess.Interfaces;
+﻿using ESFE.DataAccess.Interfaces;
 using ESFE.Entities;
 using Mapster;
 using MediatR;
@@ -9,10 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ESFE.BusinessLogic.UseCases.Users.Commands.CreateUser;
 
-internal sealed class CreateUserHandler(IEfRepository<User> _repository) : IRequestHandler<CreateUserCommand, int>
+internal sealed class CreateUserHandler(IEfRepository<User> _repository)
+    : IRequestHandler<CreateUserCommand, int>
 {
     public async Task<int> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {

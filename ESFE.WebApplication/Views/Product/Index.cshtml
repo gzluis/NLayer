@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ESFE.BusinessLogic.DTOs.ProductResponse>
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<h1>Producto</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-info">Ir a crear producto</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Proveedor
+            </th>
+            <th>
+                Código
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Imagen
+            </th>
+            <th>
+                Precio Unitario
+            </th>
+            <th>
+                Existencias
+            </th>            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>           
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductImage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PriceUnitSale)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock)
+            </td>            
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.ProductId }, new { @class = "btn btn-success" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

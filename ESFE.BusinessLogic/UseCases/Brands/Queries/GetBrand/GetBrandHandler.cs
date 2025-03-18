@@ -6,7 +6,8 @@ using MediatR;
 
 namespace ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrand;
 
-internal sealed class GetBrandHandler(IEfRepository<Brand> _repository) : IRequestHandler<GetBrandQuery, BrandResponse>
+internal sealed class GetBrandHandler(IEfRepository<Brand> _repository)
+    : IRequestHandler<GetBrandQuery, BrandResponse>
 {
     public async Task<BrandResponse> Handle(GetBrandQuery query, CancellationToken cancellationToken)
     {

@@ -6,7 +6,8 @@ using MediatR;
 
 namespace ESFE.BusinessLogic.UseCases.Quotations.Queries.GetQuotation;
 
-internal sealed class GetQuotationHandler(IEfRepository<Quotation> _repository) : IRequestHandler<GetQuotationQuery, QuotationResponse>
+internal sealed class GetQuotationHandler(IEfRepository<Quotation> _repository)
+    : IRequestHandler<GetQuotationQuery, QuotationResponse>
 {
     public async Task<QuotationResponse> Handle(GetQuotationQuery query, CancellationToken cancellationToken)
     {
