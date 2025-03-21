@@ -91,7 +91,7 @@ namespace ESFE.WebApplication.Controllers
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
                 else
-                    throw new Exception("Sucedio un error la intentar guardar la nuevo Usero");
+                    throw new Exception("Sucedio un error la intentar guardar la nuevo usuario");
             }
             catch (Exception ex)
             {
@@ -121,7 +121,7 @@ namespace ESFE.WebApplication.Controllers
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
                 else
-                    throw new Exception("Sucedio un error la intentar editar Usero");
+                    throw new Exception("Sucedio un error al intentar editar usuario");
             }
             catch (Exception ex)
             {
