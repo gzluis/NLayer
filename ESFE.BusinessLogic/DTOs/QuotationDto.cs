@@ -42,6 +42,7 @@ public class CreateQuotationDetailRequest
     public decimal? Discount { get; set; }
 
     public decimal? Subtotal { get; set; }
+    public virtual ProductResponse? Product { get; set; }
 }
 
 

@@ -1,0 +1,66 @@
+﻿@model List<ESFE.BusinessLogic.DTOs.CreateQuotationDetailRequest>
+@{
+    Func<int, string, string> getName = (int index, string prop) =>
+    {
+        return String.Format("QuotationDetails[{0}].{1}", index, prop);
+    };
+    decimal? totalFactura = 0m;
+}
+<div class="row">
+    <table class="table">       
+        <tr>          
+            <td>Cantidad</td>
+            <td>Producto</td>
+            <td>Precio</td>
+            <td>Descuento</td>
+            <td>SubTotal</td>
+            <td>Acciones</td>
+        </tr>
+        @if (Model != null && Model.Count > 0)
+        {
+            int index = 0;
+            int id = 0;
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    id--;
+                    item.QuotationDetailId = id;
+                    <tr>
+                        <td>
+                             @item.Quantity
+                            <input type="hidden" name="@getName(index,"Quantity")" value="@item.Quantity" />
+                        </td>
+                        <td>
+                            @item.Product.ProductName
+                            <input type="hidden" name="@getName(index,"Product.ProductName")" value="@item.Product.ProductName" />
+                            <input type="hidden" name="@getName(index,"ProductId")" value="@item.ProductId" />
+                        </td>
+                        <td>
+                            @item.Product.PriceUnitSale
+                            <input type="hidden" name="@getName(index,"Product.PriceUnitSale")" value="@item.Product.PriceUnitSale" />                           
+                        </td>
+                        <td>
+                            @item.Discount
+                            <input type="hidden" name="@getName(index,"Discount")" value="@item.Discount" />
+                        </td>
+                        <td>
+                            @item.Subtotal
+                            <input type="hidden" name="@getName(index,"Subtotal")" value="@item.Subtotal" />
+                        </td>                       
+                        <td data-edit>
+                            <button type="button" class="btn btn-danger" onclick="deleteItemDetVenta('@item.QuotationDetailId')">Quitar</button>
+                        </td>
+                    </tr>
+                    index++;
+                }
+            </tbody>           
+            totalFactura = Model.Sum(s => s.Subtotal);
+        }
+    </table>
+</div>
+<div class="row justify-content-end">
+    <div class="form-group col-2">
+        <label class="control-label">Total</label>
+        <input name="Total" readonly class="form-control" value="@totalFactura" />
+    </div>
+</div>
