@@ -43,7 +43,7 @@ namespace ESFE.WebApplication.Controllers
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
                 else
-                    throw new Exception("Sucedio un error la intentar guardar la nueva marca");              
+                    throw new Exception("Sucedio un error al intentar guardar la nueva marca");              
             }
             catch(Exception ex)
             {
@@ -70,7 +70,7 @@ namespace ESFE.WebApplication.Controllers
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
                 else
-                    throw new Exception("Sucedio un error la intentar editar marca");
+                    throw new Exception("Sucedio un error al intentar editar marca");
             }
             catch (Exception ex)
             {
@@ -97,7 +97,7 @@ namespace ESFE.WebApplication.Controllers
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
                 else
-                    throw new Exception("Sucedio un error la intentar editar marca");
+                    throw new Exception("Sucedio un error al intentar eliminar marca");
             }
             catch (Exception ex)
             {
