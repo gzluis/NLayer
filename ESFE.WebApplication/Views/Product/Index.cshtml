@@ -22,42 +22,46 @@
                 Nombre
             </th>
             <th>
-                Imagen
-            </th>
-            <th>
                 Precio Unitario
             </th>
             <th>
                 Existencias
-            </th>            
+            </th>
+            <th>
+                Imagen
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>           
-            <td>
-                @Html.DisplayFor(modelItem => item.SupplierName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductImage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PriceUnitSale)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>            
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.ProductId }, new { @class = "btn btn-success" })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PriceUnitSale)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    @if (!string.IsNullOrWhiteSpace(item.ProductImage))
+                    {
+                        <img src="@item.ProductImage" style="width:75px" />
+                    }                   
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.ProductId }, new { @class = "btn btn-success" })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

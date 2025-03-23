@@ -1,7 +1,8 @@
 USE master;
 
-CREATE DATABASE myquotations
-
+CREATE DATABASE myquotations;
+USE myquotations;
+GO
 CREATE TABLE roles(
     rol_id INT IDENTITY(1,1) PRIMARY KEY,
     rol_name VARCHAR(60),
@@ -64,3 +65,5 @@ CREATE TABLE quotation_details (
     FOREIGN KEY (quotation_id) REFERENCES quotations(quotation_id),
     FOREIGN KEY (product_id) REFERENCES products(product_id)
 );
+
+Desarrollar habilidades en la creación de formularios y la recepción de datos: Que los alumnos sean capaces de crear formularios interactivos y procesar los datos enviados por el usuario.
