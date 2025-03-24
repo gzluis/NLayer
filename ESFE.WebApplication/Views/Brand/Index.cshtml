@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ESFE.BusinessLogic.DTOs.BrandResponse>
+
+@{
+    ViewData["Title"] = "Marcas";
+}
+
+<h1>Marcas</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-info">Ir a crear marca</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BrandName)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.BrandId }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.BrandId }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
