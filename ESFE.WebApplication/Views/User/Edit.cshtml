@@ -1,0 +1,41 @@
+﻿@model ESFE.BusinessLogic.DTOs.UpdateUserRequest
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<h1>Editar</h1>
+
+<h4>Usuarios</h4>
+<hr />
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="UserId" type="hidden" />
+    <div class="row">
+        <div class="form-group col-3">
+            <label asp-for="UserName" class="control-label">Nombre</label>
+            <input asp-for="UserName" class="form-control" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-3">
+            <label asp-for="UserNickname" class="control-label">Usuario</label>
+            <input asp-for="UserNickname" class="form-control" />
+            <span asp-validation-for="UserNickname" class="text-danger"></span>
+        </div>
+        <div class="form-group col-6">
+            <label asp-for="RolId" class="control-label">Roles</label>
+            <select asp-for="RolId" class="form-control" asp-items="ViewBag.RolId"></select>
+            <span asp-validation-for="RolId" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-info">Cancelar</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
