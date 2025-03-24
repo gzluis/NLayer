@@ -29,6 +29,7 @@
                         <td>
                              @item.Quantity
                             <input type="hidden" name="@getName(index,"Quantity")" value="@item.Quantity" />
+                            <input type="hidden" name="@getName(index,"QuotationDetailId")" value="@item.QuotationDetailId" />
                         </td>
                         <td>
                             @item.Product.ProductName
@@ -48,7 +49,7 @@
                             <input type="hidden" name="@getName(index,"Subtotal")" value="@item.Subtotal" />
                         </td>                       
                         <td data-edit>
-                            <button type="button" class="btn btn-danger" onclick="deleteItemDetVenta('@item.QuotationDetailId')">Quitar</button>
+                            <button type="button" class="btn btn-danger" onclick="deleteItem('@item.QuotationDetailId')">Quitar</button>
                         </td>
                     </tr>
                     index++;

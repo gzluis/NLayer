@@ -2,15 +2,15 @@
 using ESFE.BusinessLogic.UseCases.Products.Queries.GetProduct;
 using ESFE.BusinessLogic.UseCases.Products.Queries.GetProducts;
 using ESFE.BusinessLogic.UseCases.Quotations.Commands.CreateQuotation;
-using ESFE.BusinessLogic.UseCases.Quotations.Queries.GetQuotation;
 using ESFE.BusinessLogic.UseCases.Quotations.Queries.GetQuotations;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESFE.WebApplication.Controllers
 {
+    [Authorize]
     public class QuotationController : Controller
     {
         private readonly IMediator _mediator;
@@ -38,9 +38,12 @@ namespace ESFE.WebApplication.Controllers
             }).ToList();
             products.Add(new { ProductId = 0L, ProductName = "Seleccionar" });
             ViewData["ProductId"] = new SelectList(products, "ProductId", "ProductName",0);
+
+            int userId = int.Parse(User.FindFirst("Id").Value);
             return View(new CreateQuotationRequest
             {
-                QuotationRegistration=DateTime.Now,
+                QuotationRegistration = DateTime.Now,
+                UserId = userId,
                 QuotationDetails = new List<CreateQuotationDetailRequest>()
             });
         }
@@ -51,12 +54,15 @@ namespace ESFE.WebApplication.Controllers
         public async Task<IActionResult> Create(CreateQuotationRequest createQuotationRequest)
         {
             try
-            {
+            {                
+                if(createQuotationRequest.QuotationDetails==null || createQuotationRequest.QuotationDetails.Count==0)
+                    throw new Exception("En la cotización es necesario agregar item al detalle");
+                createQuotationRequest.QuotationDetails.ForEach(s => s.QuotationDetailId = 0);
                 var result = await _mediator.Send(new CreateQuotationCommand(createQuotationRequest));
                 if (result > 0)
                     return RedirectToAction(nameof(Index));
                 else
-                    throw new Exception("Sucedio un error al intentar guardar el nuevo producto");
+                    throw new Exception("Sucedio un error al intentar guardar la nueva cotización");
             }
             catch (Exception ex)
             {
@@ -101,10 +107,18 @@ namespace ESFE.WebApplication.Controllers
             });
             return PartialView("_QuotationDetail", createQuotationRequest.QuotationDetails);
         }
-        public async Task<IActionResult> Detail(long id)
+        [HttpPost]
+        public IActionResult DeleteItemDet(long id,CreateQuotationRequest createQuotationRequest)
         {
-            var quotation = await _mediator.Send(new GetQuotationQuery(id));
-            return View(quotation);
+            if (createQuotationRequest.QuotationDetails != null && createQuotationRequest.QuotationDetails.Count > 0)
+            {
+                var delItem = createQuotationRequest.QuotationDetails.FirstOrDefault(s => s.QuotationDetailId == id);
+                if (delItem != null)
+                {
+                    createQuotationRequest.QuotationDetails.Remove(delItem);
+                }
+            }                   
+            return PartialView("_QuotationDetail", createQuotationRequest.QuotationDetails);
         }
     }
 }

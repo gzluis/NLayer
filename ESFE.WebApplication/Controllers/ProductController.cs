@@ -4,15 +4,11 @@ using ESFE.BusinessLogic.UseCases.Products.Commands.CreateProduct;
 using ESFE.BusinessLogic.UseCases.Products.Commands.UpdateProduct;
 using ESFE.BusinessLogic.UseCases.Products.Queries.GetProduct;
 using ESFE.BusinessLogic.UseCases.Products.Queries.GetProducts;
-using ESFE.Entities;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis.Elfie.Model.Strings;
-using Microsoft.EntityFrameworkCore;
 
 namespace ESFE.WebApplication.Controllers
 {

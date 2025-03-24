@@ -20,8 +20,7 @@
             <th>Días de Validez</th>
             <th>Fecha de Registro</th>
             <th>Estado de la Cotización</th>
-            <th>Total</th>           
-            <th></th>
+            <th>Total</th>                      
         </tr>
     </thead>
     <tbody>
@@ -53,11 +52,7 @@
                 </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Total)
-            </td>
-           
-            <td>               
-                    @Html.ActionLink("Detalle", "Details", new { id = item.QuotationId })
-            </td>
+            </td>                       
         </tr>
 }
     </tbody>

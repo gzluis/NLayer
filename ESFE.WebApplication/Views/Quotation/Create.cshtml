@@ -10,6 +10,7 @@
 <hr />
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="UserId" class="form-control" />
     <div class="row">
         <div class="form-group col-3">
             <label asp-for="ClientName" class="control-label">Nombre del Cliente</label>
@@ -88,6 +89,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+      @*   https://select2.org/getting-started/installation *@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
@@ -95,14 +97,34 @@
             $('#slIdProducto').select2();
         });
         function addItemDet() {
-            $.ajax({
-                url: '@Url.Action("AddItemDet")',
-                type:'POST',
-                data: $("#detQuotation *[name]").serialize(),
-                success: function (html) {                   
-                    $("#divDet").html(html);
-                }
-            });
+            const idProducto = $("#slIdProducto").val();
+            const quantity = $("#txtQuantity").val();
+            if (idProducto > 0 && quantity > 0) {
+                $.ajax({
+                    url: '@Url.Action("AddItemDet")',
+                    type: 'POST',
+                    data: $("#detQuotation *[name]").serialize(),
+                    success: function (html) {
+                        $("#divDet").html(html);
+                    }
+                });
+            }
+            else {
+                alert("Seleccionar un producto ingresar y agregar una cantidad");
+            }           
+        }
+        function deleteItem(id) {
+            const result = confirm("¿Está seguro de que desea eliminar este elemento?");
+            if (result) {
+                $.ajax({
+                    url: '@Url.Action("DeleteItemDet")' + "/" + id,
+                    type: 'POST',
+                    data: $("#detQuotation *[name]").serialize(),
+                    success: function (html) {
+                        $("#divDet").html(html);
+                    }
+                });
+            }            
         }
     </script>
 }
