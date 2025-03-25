@@ -3,6 +3,7 @@ using ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrands;
 using ESFE.BusinessLogic.UseCases.Products.Commands.CreateProduct;
 using ESFE.BusinessLogic.UseCases.Products.Queries.GetProducts;
 using ESFE.BusinessLogic.UseCases.Quotations.Commands.CreateQuotation;
+using ESFE.BusinessLogic.UseCases.Quotations.Queries.GetQuotation;
 using ESFE.BusinessLogic.UseCases.Quotations.Queries.GetQuotations;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace ESFE.WebApplication.Controllers
         // GET: QuotationController
         public async Task<IActionResult> Index()
         {
-            var quotations = await _mediator.Send(new GetQuotationsQuery());
+            var quotations = await _mediator.Send(new GetQuotationQuery(3));
             return View(quotations);
         }
 

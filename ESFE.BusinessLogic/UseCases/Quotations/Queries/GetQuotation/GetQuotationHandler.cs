@@ -1,4 +1,5 @@
 ﻿using ESFE.BusinessLogic.DTOs;
+using ESFE.BusinessLogic.UseCases.Quotations.Specifications;
 using ESFE.DataAccess.Interfaces;
 using ESFE.Entities;
 using Mapster;
@@ -11,7 +12,7 @@ internal sealed class GetQuotationHandler(IEfRepository<Quotation> _repository)
 {
     public async Task<QuotationResponse> Handle(GetQuotationQuery query, CancellationToken cancellationToken)
     {
-        var quotation = await _repository.GetByIdAsync(query.quotationId, cancellationToken);
+        var quotation = await _repository.FirstOrDefaultAsync(new GetQuotationSpec(query.quotationId), cancellationToken);
 
         if (quotation is null)
         {
