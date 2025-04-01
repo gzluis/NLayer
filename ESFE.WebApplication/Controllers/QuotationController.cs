@@ -1,8 +1,11 @@
 ﻿using ESFE.BusinessLogic.DTOs;
+using ESFE.BusinessLogic.UseCases.Brands.Queries.GetBrands;
 using ESFE.BusinessLogic.UseCases.Products.Queries.GetProduct;
 using ESFE.BusinessLogic.UseCases.Products.Queries.GetProducts;
 using ESFE.BusinessLogic.UseCases.Quotations.Commands.CreateQuotation;
+using ESFE.BusinessLogic.UseCases.Quotations.Queries.GetQuotation;
 using ESFE.BusinessLogic.UseCases.Quotations.Queries.GetQuotations;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -119,6 +122,12 @@ namespace ESFE.WebApplication.Controllers
                 }
             }                   
             return PartialView("_QuotationDetail", createQuotationRequest.QuotationDetails);
+        }
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            var quotation = await _mediator.Send(new GetQuotationQuery(id));                      
+            return View(quotation);
         }
     }
 }

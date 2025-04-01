@@ -1,0 +1,96 @@
+﻿@model ESFE.BusinessLogic.DTOs.QuotationResponse
+
+@{
+    ViewData["Title"] = "Detalle Cotización";
+}
+
+<h1>Detalle</h1>
+
+<h4>Cotización</h4>
+<div class="row">
+    <div class="form-group col-3">
+        <label asp-for="ClientName" class="control-label">Nombre del Cliente</label>
+        <input asp-for="ClientName" disabled class="form-control" />
+    </div>
+    <div class="form-group col-3">
+        <label asp-for="ClientPhone" class="control-label">Teléfono del Cliente</label>
+        <input asp-for="ClientPhone" disabled class="form-control" />
+    </div>
+    <div class="form-group col-4">
+        <label asp-for="SellerName" class="control-label">Nombre del Vendedor</label>
+        <input asp-for="SellerName" disabled class="form-control" />
+    </div>
+    <div class="form-group col-3">
+        <label asp-for="PaymentMethodName" class="control-label">Método de Pago</label>
+        <input asp-for="PaymentMethodName" disabled class="form-control" />
+    </div>
+    <div class="form-group col-3">
+        <label asp-for="QuotationNumber" class="control-label">Número de Cotización</label>
+        <input asp-for="QuotationNumber" disabled class="form-control" />
+    </div>
+    <div class="form-group col-3">
+        <label asp-for="ValidityDays" class="control-label">Días de Validez</label>
+        <input asp-for="ValidityDays" disabled class="form-control" />
+    </div>
+    <div class="form-group col-3">
+        <label asp-for="QuotationRegistration" class="control-label">Fecha de Registro</label>
+        <input asp-for="QuotationRegistration" disabled type="date" class="form-control" />
+    </div>
+    <div class="form-group form-check col-3">
+        <label class="form-check-label">
+            <input class="form-check-input" disabled asp-for="QuotationStatus" />Estado de la Cotización
+        </label>
+    </div>
+</div>
+<fieldset class="mt-3" id="detQuotation">
+    <legend>Detalle de la Cotización</legend>
+    <div class="row">
+        <table class="table">
+            <tr>
+                <td>Cantidad</td>
+                <td>Producto</td>
+                <td>Precio</td>
+                <td>Descuento</td>
+                <td>SubTotal</td>
+                <td>Acciones</td>
+            </tr>
+            @if (Model.QuotationDetails != null && Model.QuotationDetails.Count > 0)
+            {              
+                <tbody>
+                    @foreach (var item in Model.QuotationDetails)
+                    {                       
+                        <tr>
+                            <td>
+                                @item.Quantity                               
+                            </td>
+                            <td>
+                                @item.Product.ProductName                               
+                            </td>
+                            <td>
+                                @item.Product.PriceUnitSale                               
+                            </td>
+                            <td>
+                                @item.Discount                               
+                            </td>
+                            <td>
+                                @item.Subtotal                               
+                            </td>                          
+                        </tr>
+                    }
+                </tbody>               
+            }
+        </table>
+    </div>
+    <div class="row justify-content-end">
+        <div class="form-group col-2">
+            <label class="control-label">Total</label>
+            <input asp-for="Total" disabled class="form-control" />
+        </div>
+    </div>
+</fieldset>
+
+<div class="row">
+    <div class="form-group mt-3">       
+        <a asp-action="Index" class="btn btn-info">Ir a la lista</a>
+    </div>
+</div>
