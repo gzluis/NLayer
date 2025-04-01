@@ -9,9 +9,9 @@ namespace ESFE.BusinessLogic.UseCases.Quotations.Queries.GetQuotation;
 internal sealed class GetQuotationHandler(IEfRepository<Quotation> _repository) : IRequestHandler<GetQuotationQuery, QuotationResponse>
 {
     public async Task<QuotationResponse> Handle(GetQuotationQuery query, CancellationToken cancellationToken)
-    {       
+    {
 
-        var quotation = await _repository.FirstOrDefaultAsync(new GetQuotationSpec(query.quotationId), cancellationToken);
+        var quotation = await _repository.GetByIdAsync(query.quotationId, cancellationToken);
 
         if (quotation is null)
         {
